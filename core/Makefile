@@ -227,7 +227,7 @@ endif
 	$(hide) TARGET_BUILD_TYPE="$(TARGET_BUILD_VARIANT)" \
 			TARGET_BUILD_FLAVOR="$(TARGET_PRODUCT)-$(TARGET_BUILD_VARIANT)" \
 			TARGET_DEVICE="$(TARGET_VENDOR_DEVICE_NAME)" \
-			SOKP_DEVICE="$(TARGET_DEVICE)" \
+			ZAP_DEVICE="$(TARGET_DEVICE)" \
 			PRODUCT_NAME="$(TARGET_VENDOR_PRODUCT_NAME)" \
 			PRODUCT_BRAND="$(PRODUCT_BRAND)" \
 			PRODUCT_DEFAULT_LANGUAGE="$(call default-locale-language,$(PRODUCT_LOCALES))" \
@@ -898,8 +898,8 @@ ifneq ($(OTA_PACKAGE_SIGNING_KEY),)
     PRODUCT_EXTRA_RECOVERY_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE)
 else
     PRODUCT_EXTRA_RECOVERY_KEYS += \
-        build/target/product/security/sokp \
-        build/target/product/security/sokp-devkey
+        build/target/product/security/zap \
+        build/target/product/security/zap-devkey
 endif
 
 # Generate a file containing the keys that will be read by the
@@ -1663,7 +1663,7 @@ endif
 ifeq ($(WITH_GMS),true)
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
 else
-ifneq ($(SOKP_BUILD),)
+ifneq ($(ZAP_BUILD),)
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := true
 else
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
@@ -1701,14 +1701,14 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
 	   $(if $(OEM_OTA_CONFIG), -o $(OEM_OTA_CONFIG)) \
 	   $(BUILT_TARGET_FILES_PACKAGE) $@
 
-SOKP_TARGET_PACKAGE := $(PRODUCT_OUT)/SOKP-$(SOKP_MOD_VERSION).zip
+ZAP_TARGET_PACKAGE := $(PRODUCT_OUT)/ZAP-$(ZAP_MOD_VERSION).zip
 
 .PHONY: otapackage bacon
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: otapackage
-	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(SOKP_TARGET_PACKAGE)
-	$(hide) $(MD5SUM) $(SOKP_TARGET_PACKAGE) > $(SOKP_TARGET_PACKAGE).md5sum
-	@echo -e ${CL_CYN}"Package Complete: $(SOKP_TARGET_PACKAGE)"${CL_RST}
+	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(ZAP_TARGET_PACKAGE)
+	$(hide) $(MD5SUM) $(ZAP_TARGET_PACKAGE) > $(ZAP_TARGET_PACKAGE).md5sum
+	@echo -e ${CL_CYN}"Package Complete: $(ZAP_TARGET_PACKAGE)"${CL_RST}
 
 endif    # recovery_fstab is defined
 endif    # TARGET_NO_KERNEL != true

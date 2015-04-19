@@ -110,6 +110,6 @@ popd
 
 echo Done!
 echo Use the following command to set up your build environment:
-echo '  'lunch sokp_$DEVICE-eng
+echo '  'lunch zap_$DEVICE-eng
 echo And use the follwowing command to build a recovery:
-echo '  '. build/tools/device/makerecoveries.sh sokp_$DEVICE-eng
+echo '  '. build/tools/device/makerecoveries.sh zap_$DEVICE-eng
